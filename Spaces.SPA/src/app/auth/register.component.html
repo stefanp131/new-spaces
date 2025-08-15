@@ -1,0 +1,21 @@
+
+
+<div class="register-center">
+  <mat-card>
+    <h2>Register</h2>
+    <form [formGroup]="form" (ngSubmit)="onRegister()" class="register-form-col">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" autocomplete="username" />
+        <mat-error *ngIf="form.get('username')?.hasError('required')">Username is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" autocomplete="new-password" />
+        <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Register</button>
+      <div *ngIf="error">{{ error }}</div>
+    </form>
+  </mat-card>
+</div>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpacesAPI", "SpacesAPI\SpacesAPI.csproj", "{91A70A74-3153-4388-AF4B-E0C47BFE7E00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spaces.API", "Spaces.API\Spaces.API.csproj", "{91A70A74-3153-4388-AF4B-E0C47BFE7E00}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spaces.Services", "Spaces.Services\Spaces.Services.csproj", "{2A589F8D-0894-41C8-8907-BA3DC4C1CBE1}"
 EndProject
