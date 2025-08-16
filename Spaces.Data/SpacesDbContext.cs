@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Spaces.Data.Entities;
 
 namespace Spaces.Data
 {
@@ -7,12 +8,5 @@ namespace Spaces.Data
         public SpacesDbContext(DbContextOptions<SpacesDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
-    }
-
-    public class User
-    {
-        public int Id { get; set; }
-    public required string Username { get; set; }
-    public required string PasswordHash { get; set; }
     }
 }

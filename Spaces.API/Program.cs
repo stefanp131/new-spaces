@@ -24,6 +24,7 @@ builder.Services.AddDbContext<SpacesDbContext>(options =>
 	options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register AuthService
+builder.Services.AddScoped<Spaces.Data.UnitOfWork.IUnitOfWork, Spaces.Data.UnitOfWork.UnitOfWork>();
 builder.Services.AddScoped<Spaces.Services.IAuthService, Spaces.Services.AuthService>();
 
 // JWT configuration

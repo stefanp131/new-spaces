@@ -1,5 +1,7 @@
-using Spaces.Data;
-using Microsoft.EntityFrameworkCore;
+
+using Spaces.Data.Entities;
+using Spaces.Data.UnitOfWork;
+using Spaces.Data.Repositories;
 
 namespace Spaces.Services;
 
@@ -11,23 +13,44 @@ public interface IAuthService
 
 public class AuthService : IAuthService
 {
-    private readonly SpacesDbContext _db;
-    public AuthService(SpacesDbContext db)
+
+    private readonly IUnitOfWork _unitOfWork;
+    public AuthService(IUnitOfWork unitOfWork)
     {
-        _db = db;
+        _unitOfWork = unitOfWork;
     }
+
 
     public async Task<User?> AuthenticateAsync(string username, string password)
     {
-    // For demo: no password hashing, just match username/password
-    return await _db.Users.FirstOrDefaultAsync(u => u.Username == username && u.PasswordHash == password);
+        var users = await _unitOfWork.Users.FindAsync(u => u.Username == username);
+        var user = users.FirstOrDefault();
+        if (user == null) return null;
+        if (!VerifyPassword(password, user.PasswordHash)) return null;
+        return user;
     }
+
 
     public async Task<User> RegisterAsync(string username, string password)
     {
-    var user = new User { Username = username, PasswordHash = password };
-        _db.Users.Add(user);
-        await _db.SaveChangesAsync();
+        var passwordHash = HashPassword(password);
+        var user = new User { Username = username, PasswordHash = passwordHash };
+        await _unitOfWork.Users.AddAsync(user);
+        await _unitOfWork.SaveChangesAsync();
         return user;
+    }
+
+    // Simple password hashing using SHA256 (for demo; use a stronger method in production)
+    private static string HashPassword(string password)
+    {
+        using var sha = System.Security.Cryptography.SHA256.Create();
+        var bytes = System.Text.Encoding.UTF8.GetBytes(password);
+        var hash = sha.ComputeHash(bytes);
+        return Convert.ToBase64String(hash);
+    }
+
+    private static bool VerifyPassword(string password, string hash)
+    {
+        return HashPassword(password) == hash;
     }
 }
