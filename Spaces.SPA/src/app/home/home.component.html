@@ -1,1 +1,20 @@
-// ...existing code from home.component.html...
+<div class="create-post-card">
+	<form (ngSubmit)="createPost()" [formGroup]="postForm">
+		<mat-form-field appearance="fill" class="full-width">
+			<mat-label>Title</mat-label>
+			<input matInput formControlName="title" required />
+		</mat-form-field>
+		<quill-editor formControlName="content" [styles]="{height: '200px'}"></quill-editor>
+		<button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid">Create Post</button>
+	</form>
+</div>
+
+<div class="posts-list">
+	<mat-card *ngFor="let post of posts" class="post-card">
+		<mat-card-title>{{ post.title }}</mat-card-title>
+		<mat-card-content>
+			<div [innerHTML]="post.content"></div>
+			<div class="post-meta">Created: {{ post.createdAt | date:'short' }}</div>
+		</mat-card-content>
+	</mat-card>
+</div>

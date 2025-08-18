@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add controllers
@@ -26,9 +27,23 @@ builder.Services.AddDbContext<SpacesDbContext>(options =>
 // Register AuthService
 builder.Services.AddScoped<Spaces.Data.UnitOfWork.IUnitOfWork, Spaces.Data.UnitOfWork.UnitOfWork>();
 builder.Services.AddScoped<Spaces.Services.IAuthService, Spaces.Services.AuthService>();
+builder.Services.AddScoped<Spaces.Services.IPostService, Spaces.Services.PostService>();
+// AutoMapper (scan services assembly for profiles)
+builder.Services.AddAutoMapper(typeof(Spaces.Services.Mapping.MappingProfile).Assembly);
 
 // JWT configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt");
+var tokenValidationParameters = new TokenValidationParameters
+{
+	ValidateIssuer = true,
+	ValidateAudience = true,
+	ValidateLifetime = true,
+	ValidateIssuerSigningKey = true,
+	ValidIssuer = jwtSettings["Issuer"]!,
+	ValidAudience = jwtSettings["Audience"]!,
+	IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!)),
+	ClockSkew = TimeSpan.Zero
+};
 builder.Services.AddAuthentication(options =>
 {
 	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -36,32 +51,26 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-	options.TokenValidationParameters = new TokenValidationParameters
-	{
-		ValidateIssuer = true,
-		ValidateAudience = true,
-		ValidateLifetime = true,
-		ValidateIssuerSigningKey = true,
-	ValidIssuer = jwtSettings["Issuer"]!,
-	ValidAudience = jwtSettings["Audience"]!,
-	IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
-	};
+	options.RequireHttpsMetadata = false; // keep HTTP for local dev
+	options.TokenValidationParameters = tokenValidationParameters;
+	// No logging events
 });
 
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Map controller routes
-app.MapControllers();
+if (app.Environment.IsDevelopment())
+{
+    IdentityModelEventSource.ShowPII = true;
+}
 
-// Use CORS before authentication/authorization
 app.UseCors("AllowAngularDev");
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-app.MapGet("/", [Authorize]() => "Hello World! (JWT protected)");
+// Map controllers AFTER auth middleware registration so pipeline flows correctly
+app.MapControllers();
 
 app.Run();

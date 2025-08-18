@@ -1,1 +1,27 @@
-// ...existing code from home.component.scss...
+.create-post-card {
+	max-width: 600px;
+	margin: 2rem auto;
+	padding: 1rem;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.full-width {
+	width: 100%;
+}
+
+.posts-list {
+	max-width: 600px;
+	margin: 2rem auto;
+}
+
+.post-card {
+	margin-bottom: 1.5rem;
+}
+
+.post-meta {
+	font-size: 0.8rem;
+	color: #888;
+	margin-top: 0.5rem;
+}

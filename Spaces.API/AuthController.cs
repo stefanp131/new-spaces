@@ -32,7 +32,8 @@ namespace Spaces.API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, "User")
+                new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             var jwtSettings = _configuration.GetSection("Jwt");
