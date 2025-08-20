@@ -35,5 +35,16 @@ namespace Spaces.API
             var posts = await _postService.GetAllPostsAsync();
             return Ok(posts);
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+            var success = await _postService.DeletePostAsync(id, int.Parse(userId));
+            if (!success) return NotFound();
+            return NoContent();
+        }
     }
 }

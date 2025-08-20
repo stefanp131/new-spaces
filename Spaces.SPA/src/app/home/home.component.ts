@@ -7,6 +7,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from '../material.module';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuillModule } from 'ngx-quill';
 
 @Component({
@@ -28,11 +29,12 @@ export class HomeComponent implements OnInit {
 	postForm: FormGroup;
 	posts: Post[] = [];
 
-	constructor(
-		private router: Router,
-		private fb: FormBuilder,
-		private postService: PostService
-	) {
+		constructor(
+			private router: Router,
+			private fb: FormBuilder,
+			private postService: PostService,
+			private snackBar: MatSnackBar
+		) {
 		this.postForm = this.fb.group({
 			title: ['', Validators.required],
 			content: ['', Validators.required]
@@ -52,6 +54,16 @@ export class HomeComponent implements OnInit {
 			}
 		});
 	}
+
+		deletePost(post: Post) {
+			if (!post.id) return;
+			this.postService.deletePost(post.id).subscribe({
+				next: () => {
+					this.posts = this.posts.filter(p => p.id !== post.id);
+					this.snackBar.open('Post deleted', 'Close', { duration: 2500, panelClass: 'snackbar-accent' });
+				}
+			});
+		}
 
 	loadPosts() {
 		this.postService.getPosts().subscribe(posts => {

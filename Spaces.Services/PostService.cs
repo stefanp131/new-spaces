@@ -1,8 +1,5 @@
 using Spaces.Data;
 using Spaces.Data.UnitOfWork;
-using Spaces.Data.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Spaces.Services.DTOs;
 using AutoMapper;
 
@@ -12,6 +9,7 @@ namespace Spaces.Services
     {
         Task<PostReadDto> CreatePostAsync(int userId, PostCreateDto dto);
         Task<IEnumerable<PostReadDto>> GetAllPostsAsync();
+        Task<bool> DeletePostAsync(int id, int userId);
     }
 
     public class PostService : IPostService
@@ -37,6 +35,16 @@ namespace Spaces.Services
         {
             var all = await _unitOfWork.Posts.GetAllAsync();
             return _mapper.Map<IEnumerable<PostReadDto>>(all);
+        }
+
+        public async Task<bool> DeletePostAsync(int id, int userId)
+        {
+            var post = await _unitOfWork.Posts.GetByIdAsync(id);
+            if (post == null) return false; // not found
+            if (post.UserId != userId) return false; // ownership mismatch (controller will decide response)
+            _unitOfWork.Posts.Remove(post);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
         }
     }
 }
