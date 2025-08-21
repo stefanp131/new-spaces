@@ -1,8 +1,156 @@
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* Force Quill placeholder color globally for both themes */
+.light-theme .ql-editor.ql-blank::before,
+:root .ql-editor.ql-blank::before {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+.dark-theme .ql-editor.ql-blank::before {
+  color: #fff !important;
+  opacity: 1 !important;
+}
+/* Quill editor placeholder color for light and dark themes (global) */
+.light-theme ::ng-deep .ql-editor.ql-blank::before,
+:root ::ng-deep .ql-editor.ql-blank::before {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+.dark-theme ::ng-deep .ql-editor.ql-blank::before {
+  color: #fff !important;
+  opacity: 1 !important;
+}
+.light-theme ::ng-deep .ql-editor.ql-blank::before,
+:root ::ng-deep .ql-editor.ql-blank::before {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+.dark-theme ::ng-deep .ql-editor.ql-blank::before {
+  color: #fff !important;
+  opacity: 1 !important;
+}
+/* Quill editor and view theme support for light and dark themes */
+.light-theme ::ng-deep .ql-container,
+:root ::ng-deep .ql-container {
+  background: var(--card-background-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.light-theme ::ng-deep .ql-editor,
+:root ::ng-deep .ql-editor {
+  background: var(--card-background-color) !important;
+  color: var(--text-color) !important;
+}
+.light-theme ::ng-deep .ql-toolbar,
+:root ::ng-deep .ql-toolbar {
+  background: var(--toolbar-background-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.light-theme ::ng-deep .quill-content,
+:root ::ng-deep .quill-content {
+  background: var(--card-background-color) !important;
+  color: var(--text-color) !important;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+.dark-theme ::ng-deep .ql-container {
+  background: var(--card-background-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.dark-theme ::ng-deep .ql-editor {
+  background: var(--card-background-color) !important;
+  color: var(--text-color) !important;
+}
+.dark-theme ::ng-deep .ql-toolbar {
+  background: var(--toolbar-background-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.dark-theme ::ng-deep .quill-content {
+  background: var(--card-background-color) !important;
+  color: var(--text-color) !important;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+/* You can add global styles to this file, and also import other style files */
 @import 'quill/dist/quill.snow.css';
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
 
+:root,
+.light-theme {
+  --primary-color: #d1c4e9; /* Light Purple */
+  --accent-color: #ffe57f; /* Light Amber */
+  --warn-color: #ef9a9a; /* Light Red */
+
+  --background-color: #fafafa; /* Grey 50 */
+  --text-color: #000000;
+  --card-background-color: #ffffff;
+  --toolbar-background-color: #f5f5f5; /* Grey 100 */
+  --button-color: var(--primary-color);
+  --contrast-text-color: #fff;
+}
+
+.dark-theme {
+  --primary-color: #673ab7; /* Deep Purple */
+  --accent-color: #ffd740; /* Amber */
+  --warn-color: #f44336; /* Red */
+
+  --background-color: #303030; /* Grey 800 */
+  --text-color: #ffffff;
+  --card-background-color: #23232b; /* Even darker for cards */
+  --toolbar-background-color: #212121; /* Grey 900 */
+  --button-color: var(--primary-color);
+  --contrast-text-color: #000;
+}
+
 body {
 	font-family: 'Merriweather', serif;
+    background-color: var(--background-color);
+	color: var(--text-color);
 }
-/* You can add global styles to this file, and also import other style files */
+
+/* Global Material Theming for mat-form-field and buttons */
+mat-form-field {
+  width: 100%;
+}
+::ng-deep mat-form-field.mat-form-field {
+  --mat-form-field-outline-color: var(--primary-color);
+  --mat-form-field-label-color: var(--primary-color);
+  --mat-form-field-focus-color: var(--accent-color);
+  color: var(--text-color);
+}
+::ng-deep mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: var(--primary-color);
+}
+::ng-deep mat-form-field .mat-input-element {
+  color: var(--text-color);
+}
+button[mat-raised-button],
+button[mat-button],
+button[mat-icon-button] {
+  color: var(--text-color);
+  background-color: transparent;
+  transition: background 0.2s;
+}
+button[mat-raised-button][color="primary"],
+button[mat-button][color="primary"] {
+  color: #fff;
+  background-color: var(--primary-color);
+}
+button[mat-raised-button][color="accent"],
+button[mat-button][color="accent"] {
+  background-color: var(--accent-color);
+  color: #000;
+}
+button[mat-raised-button][color="warn"],
+button[mat-button][color="warn"] {
+  background-color: var(--warn-color);
+  color: #fff;
+}
+button[mat-raised-button]:hover,
+button[mat-button]:hover,
+button[mat-icon-button]:hover {
+  filter: brightness(0.95);
+  background-color: var(--accent-color);
+}

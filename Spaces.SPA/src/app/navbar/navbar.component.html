@@ -1,7 +1,10 @@
 
-<mat-toolbar color="primary" class="navbar">
+<mat-toolbar class="navbar">
 	<span class="app-title" (click)="router.navigate(['/'])" style="cursor:pointer">MyNewSpaces</span>
 	<span class="spacer"></span>
+	<button mat-icon-button (click)="toggleTheme()">
+		<mat-icon>{{ themeService.isDarkMode() ? 'brightness_7' : 'brightness_4' }}</mat-icon>
+	</button>
 	<button mat-button [routerLink]="['/register']">Register</button>
 	<button mat-button (click)="logout()" *ngIf="isLoggedIn()">Logout</button>
 </mat-toolbar>
