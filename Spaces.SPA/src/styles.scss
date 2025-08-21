@@ -1,3 +1,219 @@
+.ql-editor {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+/* Fixed width and centered layout for Quill editor */
+.ql-container,
+.ql-editor {
+  max-width: 700px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+/* Modern, rounded, and spacious mat-card styles */
+mat-card, .mat-mdc-card, .mat-card {
+  padding: 2rem !important;
+  border-radius: 2rem !important;
+  max-width: 700px;
+  width: 100%;
+  margin: 2rem auto;
+  box-sizing: border-box;
+}
+/* Disabled state for mat-raised-button and mat-button (primary/accent) with rounded borders */
+.light-theme button.mat-raised-button[color="primary"][disabled],
+.light-theme button[mat-raised-button][color="primary"][disabled],
+:root button.mat-raised-button[color="primary"][disabled],
+:root button[mat-raised-button][color="primary"][disabled],
+.dark-theme button.mat-raised-button[color="primary"][disabled],
+.dark-theme button[mat-raised-button][color="primary"][disabled] {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  border-radius: 2rem !important;
+}
+.light-theme button.mat-raised-button[color="accent"][disabled],
+.light-theme button[mat-raised-button][color="accent"][disabled],
+:root button.mat-raised-button[color="accent"][disabled],
+:root button[mat-raised-button][color="accent"][disabled],
+.dark-theme button.mat-raised-button[color="accent"][disabled],
+.dark-theme button[mat-raised-button][color="accent"][disabled] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  border-radius: 2rem !important;
+}
+.light-theme button.mat-button[color="primary"][disabled],
+.light-theme button[mat-button][color="primary"][disabled],
+:root button.mat-button[color="primary"][disabled],
+:root button[mat-button][color="primary"][disabled],
+.dark-theme button.mat-button[color="primary"][disabled],
+.dark-theme button[mat-button][color="primary"][disabled] {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  border-radius: 2rem !important;
+}
+.light-theme button.mat-button[color="accent"][disabled],
+.light-theme button[mat-button][color="accent"][disabled],
+:root button.mat-button[color="accent"][disabled],
+:root button[mat-button][color="accent"][disabled],
+.dark-theme button.mat-button[color="accent"][disabled],
+.dark-theme button[mat-button][color="accent"][disabled] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  border-radius: 2rem !important;
+}
+.light-theme button.mat-raised-button[color="primary"],
+.light-theme button[mat-raised-button][color="primary"],
+:root button.mat-raised-button[color="primary"],
+:root button[mat-raised-button][color="primary"] {
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+  border-radius: 2rem !important;
+}
+.light-theme button.mat-raised-button[color="accent"],
+.light-theme button[mat-raised-button][color="accent"],
+:root button.mat-raised-button[color="accent"],
+:root button[mat-raised-button][color="accent"] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+  border-radius: 2rem !important;
+}
+.dark-theme button.mat-raised-button[color="primary"],
+.dark-theme button[mat-raised-button][color="primary"] {
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+  border-radius: 2rem !important;
+}
+.dark-theme button.mat-raised-button[color="accent"],
+.dark-theme button[mat-raised-button][color="accent"] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+  border-radius: 2rem !important;
+}
+.light-theme button.mat-button[color="primary"],
+.light-theme button[mat-button][color="primary"],
+:root button.mat-button[color="primary"],
+:root button[mat-button][color="primary"] {
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+  border-radius: 2rem !important;
+}
+.light-theme button.mat-button[color="accent"],
+.light-theme button[mat-button][color="accent"],
+:root button.mat-button[color="accent"],
+:root button[mat-button][color="accent"] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+  border-radius: 2rem !important;
+}
+.dark-theme button.mat-button[color="primary"],
+.dark-theme button[mat-button][color="primary"] {
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+  border-radius: 2rem !important;
+}
+.dark-theme button.mat-button[color="accent"],
+.dark-theme button[mat-button][color="accent"] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+  border-radius: 2rem !important;
+}
+/* Restore and increase specificity for mat-raised-button and mat-button color rules */
+.light-theme button.mat-raised-button[color="primary"],
+.light-theme button[mat-raised-button][color="primary"],
+:root button.mat-raised-button[color="primary"],
+:root button[mat-raised-button][color="primary"] {
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+}
+.light-theme button.mat-raised-button[color="accent"],
+.light-theme button[mat-raised-button][color="accent"],
+:root button.mat-raised-button[color="accent"],
+:root button[mat-raised-button][color="accent"] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+}
+.dark-theme button.mat-raised-button[color="primary"],
+.dark-theme button[mat-raised-button][color="primary"] {
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+}
+.dark-theme button.mat-raised-button[color="accent"],
+.dark-theme button[mat-raised-button][color="accent"] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+}
+.light-theme button.mat-button[color="primary"],
+.light-theme button[mat-button][color="primary"],
+:root button.mat-button[color="primary"],
+:root button[mat-button][color="primary"] {
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+}
+.light-theme button.mat-button[color="accent"],
+.light-theme button[mat-button][color="accent"],
+:root button.mat-button[color="accent"],
+:root button[mat-button][color="accent"] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+}
+.dark-theme button.mat-button[color="primary"],
+.dark-theme button[mat-button][color="primary"] {
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+}
+.dark-theme button.mat-button[color="accent"],
+.dark-theme button[mat-button][color="accent"] {
+  background-color: var(--accent-color) !important;
+  color: #000 !important;
+}
+/* Highly specific rules for mat-icon-button with color="warn" */
+.light-theme button.mat-icon-button[color="warn"],
+.light-theme button[mat-icon-button][color="warn"],
+:root button.mat-icon-button[color="warn"],
+:root button[mat-icon-button][color="warn"] {
+  background-color: var(--warn-color) !important;
+  color: #fff !important;
+}
+.dark-theme button.mat-icon-button[color="warn"],
+.dark-theme button[mat-icon-button][color="warn"] {
+  background-color: var(--warn-color) !important;
+  color: #fff !important;
+}
+.light-theme button.mat-icon-button[color="warn"] mat-icon,
+.light-theme button[mat-icon-button][color="warn"] mat-icon,
+:root button.mat-icon-button[color="warn"] mat-icon,
+:root button[mat-icon-button][color="warn"] mat-icon,
+.dark-theme button.mat-icon-button[color="warn"] mat-icon,
+.dark-theme button[mat-icon-button][color="warn"] mat-icon {
+  color: #fff !important;
+}
+/* Even more specific rules for warn color buttons to override Angular Material */
+.light-theme button.mat-button[color="warn"],
+.light-theme button.mat-raised-button[color="warn"],
+.light-theme button[mat-button][color="warn"],
+.light-theme button[mat-raised-button][color="warn"],
+:root button.mat-button[color="warn"],
+:root button.mat-raised-button[color="warn"],
+:root button[mat-button][color="warn"],
+:root button[mat-raised-button][color="warn"] {
+  background-color: var(--warn-color) !important;
+  color: #fff !important;
+}
+.dark-theme button.mat-button[color="warn"],
+.dark-theme button.mat-raised-button[color="warn"],
+.dark-theme button[mat-button][color="warn"],
+.dark-theme button[mat-raised-button][color="warn"] {
+  background-color: var(--warn-color) !important;
+  color: #fff !important;
+}
 /* Force Quill toolbar dropdown (picker) background to dark theme color for both themes */
 .ql-toolbar .ql-picker-options,
 .ql-toolbar .ql-picker.ql-expanded .ql-picker-options {
@@ -264,46 +480,5 @@ mat-form-field {
 }
 ::ng-deep mat-form-field .mat-input-element {
   color: var(--text-color);
-}
-button[mat-raised-button],
-button[mat-button],
-button[mat-icon-button] {
-  color: var(--text-color);
-  background-color: transparent;
-  transition: background 0.2s, box-shadow 0.2s, border-radius 0.2s;
-  border-radius: 2rem;
-}
-button[mat-raised-button][disabled],
-button[mat-button][disabled],
-button[mat-icon-button][disabled],
-button[mat-raised-button]:disabled,
-button[mat-button]:disabled,
-button[mat-icon-button]:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none !important;
-  filter: grayscale(0.2) brightness(1.1);
-  border-radius: 2rem;
-}
-button[mat-raised-button][color="primary"],
-button[mat-button][color="primary"] {
-  color: #fff;
-  background-color: var(--primary-color);
-}
-button[mat-raised-button][color="accent"],
-button[mat-button][color="accent"] {
-  background-color: var(--accent-color);
-  color: #000;
-}
-button[mat-raised-button][color="warn"],
-button[mat-button][color="warn"] {
-  background-color: var(--warn-color);
-  color: #fff;
-}
-button[mat-raised-button]:hover,
-button[mat-button]:hover,
-button[mat-icon-button]:hover {
-  filter: brightness(0.95);
-  background-color: var(--accent-color);
 }
 
