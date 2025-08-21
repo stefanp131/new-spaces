@@ -3,12 +3,12 @@
   <mat-card>
     <h2>Login</h2>
     <form [formGroup]="form" (ngSubmit)="onLogin()" class="login-form-col">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
         <input matInput formControlName="username" autocomplete="username" />
         <mat-error *ngIf="form.get('username')?.hasError('required')">Username is required</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password" autocomplete="current-password" />
         <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>

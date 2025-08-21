@@ -1,3 +1,131 @@
+/* Force Quill toolbar dropdown (picker) background to dark theme color for both themes */
+.ql-toolbar .ql-picker-options,
+.ql-toolbar .ql-picker.ql-expanded .ql-picker-options {
+  background: #23272e !important; /* fallback for dark theme */
+  background: var(--background-color, #23272e) !important;
+  color: var(--text-color) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
+}
+/* Add margin to Quill toolbar for both themes */
+.light-theme .ql-toolbar,
+.dark-theme .ql-toolbar {
+  margin-bottom: 2rem !important;
+}
+/* Even more specific rules for Quill toolbar icons and SVGs */
+.light-theme .ql-toolbar .ql-formats button,
+.light-theme .ql-toolbar .ql-formats svg,
+.light-theme .ql-toolbar .ql-formats *,
+.light-theme .ql-toolbar svg,
+.light-theme .ql-toolbar * {
+  color: var(--text-color) !important;
+  stroke: var(--text-color) !important;
+}
+.dark-theme .ql-toolbar .ql-formats button,
+.dark-theme .ql-toolbar .ql-formats svg,
+.dark-theme .ql-toolbar .ql-formats *,
+.dark-theme .ql-toolbar svg,
+.dark-theme .ql-toolbar * {
+  color: var(--text-color) !important;
+  stroke: var(--text-color) !important;
+}
+.light-theme .ql-toolbar button,
+.light-theme .ql-toolbar .ql-fill,
+.light-theme .ql-toolbar .ql-picker,
+.light-theme .ql-toolbar .ql-picker-label,
+.light-theme .ql-toolbar .ql-picker-item,
+.light-theme .ql-toolbar svg {
+  color: var(--text-color) !important;
+  fill: var(--text-color) !important;
+  stroke: var(--text-color) !important;
+}
+.dark-theme .ql-toolbar button,
+.dark-theme .ql-toolbar .ql-fill,
+.dark-theme .ql-toolbar .ql-picker,
+.dark-theme .ql-toolbar .ql-picker-label,
+.dark-theme .ql-toolbar .ql-picker-item,
+.dark-theme .ql-toolbar svg {
+  color: var(--text-color) !important;
+  fill: var(--text-color) !important;
+  stroke: var(--text-color) !important;
+}
+/* Force Quill toolbar icons and SVGs to use theme text color */
+.light-theme .ql-toolbar button,
+.light-theme .ql-toolbar .ql-fill,
+.light-theme .ql-toolbar .ql-picker,
+.light-theme .ql-toolbar .ql-picker-label,
+.light-theme .ql-toolbar .ql-picker-item,
+.light-theme .ql-toolbar svg {
+  color: var(--text-color) !important;
+  fill: var(--text-color) !important;
+}
+.dark-theme .ql-toolbar button,
+.dark-theme .ql-toolbar .ql-fill,
+.dark-theme .ql-toolbar .ql-picker,
+.dark-theme .ql-toolbar .ql-picker-label,
+.dark-theme .ql-toolbar .ql-picker-item,
+.dark-theme .ql-toolbar svg {
+  color: var(--text-color) !important;
+  fill: var(--text-color) !important;
+}
+/* Highly specific selectors for Quill editor and toolbar to enforce theme variables */
+.light-theme .ql-container > .ql-editor,
+.light-theme .ql-container.ql-snow > .ql-editor,
+.light-theme .ql-container.ql-snow .ql-editor {
+  border: 1.5px solid var(--primary-color) !important;
+  border-radius: 2rem !important;
+}
+.dark-theme .ql-container > .ql-editor,
+.dark-theme .ql-container.ql-snow > .ql-editor,
+.dark-theme .ql-container.ql-snow .ql-editor {
+  border: 1.5px solid var(--primary-color) !important;
+  border-radius: 2rem !important;
+}
+.light-theme .ql-container > .ql-toolbar,
+.light-theme .ql-container.ql-snow > .ql-toolbar,
+.light-theme .ql-toolbar.ql-snow {
+  color: var(--text-color) !important;
+  background: var(--toolbar-background-color,var(--card-background-color)) !important;
+}
+.dark-theme .ql-container > .ql-toolbar,
+.dark-theme .ql-container.ql-snow > .ql-toolbar,
+.dark-theme .ql-toolbar.ql-snow {
+  color: var(--text-color) !important;
+  background: var(--toolbar-background-color,var(--card-background-color)) !important;
+}
+.light-theme .ql-toolbar,
+:root .ql-toolbar {
+  color: var(--text-color) !important;
+}
+.dark-theme .ql-toolbar {
+  color: var(--text-color) !important;
+}
+.light-theme .ql-editor,
+:root .ql-editor {
+  border: 1.5px solid var(--primary-color) !important;
+}
+.dark-theme .ql-editor {
+  border: 1.5px solid var(--primary-color) !important;
+}
+.ql-toolbar {
+  border:none !important;
+  border-top: 2px solid var(--primary-color) !important;
+  border-bottom: 2px solid var(--primary-color) !important;
+  border-radius: 2rem !important;
+}
+/* Force rounded borders on Quill editor, container, and toolbar */
+.ql-container,
+.ql-editor,
+.ql-container .ql-editor,
+.ql-toolbar {
+  border-radius: 2rem !important;
+}
+/* Force rounded borders on Quill editor and container */
+.ql-container,
+.ql-editor,
+.ql-container .ql-editor {
+  border-radius: 2rem !important;
+}
 /* Force Quill placeholder color globally for both themes */
 .light-theme .ql-editor.ql-blank::before,
 :root .ql-editor.ql-blank::before {
@@ -33,11 +161,18 @@
   background: var(--card-background-color) !important;
   color: var(--text-color) !important;
   border-color: var(--primary-color) !important;
+  border-radius: 2rem !important;
 }
 .light-theme ::ng-deep .ql-editor,
 :root ::ng-deep .ql-editor {
   background: var(--card-background-color) !important;
   color: var(--text-color) !important;
+  border-radius: 2rem !important;
+}
+
+.ql-editor:focus {
+  border: 1px solid #80bdff !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
 }
 .light-theme ::ng-deep .ql-toolbar,
 :root ::ng-deep .ql-toolbar {
@@ -56,10 +191,12 @@
   background: var(--card-background-color) !important;
   color: var(--text-color) !important;
   border-color: var(--primary-color) !important;
+  border-radius: 2rem !important;
 }
 .dark-theme ::ng-deep .ql-editor {
   background: var(--card-background-color) !important;
   color: var(--text-color) !important;
+  border-radius: 2rem !important;
 }
 .dark-theme ::ng-deep .ql-toolbar {
   background: var(--toolbar-background-color) !important;
@@ -79,9 +216,9 @@
 
 :root,
 .light-theme {
-  --primary-color: #d1c4e9; /* Light Purple */
-  --accent-color: #ffe57f; /* Light Amber */
-  --warn-color: #ef9a9a; /* Light Red */
+  --primary-color: #FFD600; /* Inverted (complementary) of purple: Gold/Yellow */
+  --accent-color: #7F5AF0; /* Electric Purple as accent */
+  --warn-color: #FF3366; /* Hot Pink Red */
 
   --background-color: #fafafa; /* Grey 50 */
   --text-color: #000000;
@@ -113,12 +250,14 @@ body {
 /* Global Material Theming for mat-form-field and buttons */
 mat-form-field {
   width: 100%;
+  border-radius: 2rem;
 }
 ::ng-deep mat-form-field.mat-form-field {
   --mat-form-field-outline-color: var(--primary-color);
   --mat-form-field-label-color: var(--primary-color);
   --mat-form-field-focus-color: var(--accent-color);
   color: var(--text-color);
+  border-radius: 2rem;
 }
 ::ng-deep mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
   color: var(--primary-color);
@@ -131,7 +270,20 @@ button[mat-button],
 button[mat-icon-button] {
   color: var(--text-color);
   background-color: transparent;
-  transition: background 0.2s;
+  transition: background 0.2s, box-shadow 0.2s, border-radius 0.2s;
+  border-radius: 2rem;
+}
+button[mat-raised-button][disabled],
+button[mat-button][disabled],
+button[mat-icon-button][disabled],
+button[mat-raised-button]:disabled,
+button[mat-button]:disabled,
+button[mat-icon-button]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none !important;
+  filter: grayscale(0.2) brightness(1.1);
+  border-radius: 2rem;
 }
 button[mat-raised-button][color="primary"],
 button[mat-button][color="primary"] {
@@ -154,3 +306,4 @@ button[mat-icon-button]:hover {
   filter: brightness(0.95);
   background-color: var(--accent-color);
 }
+
