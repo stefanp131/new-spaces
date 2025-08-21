@@ -12,16 +12,24 @@
 </div>
 
 <div class="posts-list">
-	<mat-card *ngFor="let post of posts" class="post-card">
-				<mat-card-title class="post-header">
-					<span>{{ post.title }}</span>
-					<button mat-icon-button color="warn" (click)="deletePost(post)" aria-label="Delete post">
-						<mat-icon>delete</mat-icon>
-					</button>
-				</mat-card-title>
-		<mat-card-content>
-			<quill-view class="quill-content" [content]="post.content" format="html" theme="snow"></quill-view>
-			<div class="post-meta">Created: {{ post.createdAt | date:'short' }}</div>
-		</mat-card-content>
-	</mat-card>
+	<ng-container *ngIf="loading$ | async; else postsBlock">
+		<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+	</ng-container>
+	<ng-template #postsBlock>
+		<ng-container *ngIf="error$ | async as error">
+			<mat-error *ngIf="error">{{ error }}</mat-error>
+		</ng-container>
+		<mat-card *ngFor="let post of posts$ | async" class="post-card">
+			<mat-card-title class="post-header">
+				<span>{{ post.title }}</span>
+				<button mat-icon-button color="warn" (click)="deletePost(post)" aria-label="Delete post">
+					<mat-icon>delete</mat-icon>
+				</button>
+			</mat-card-title>
+			<mat-card-content>
+				<quill-view class="quill-content" [content]="post.content" format="html" theme="snow"></quill-view>
+				<div class="post-meta">Created: {{ post.createdAt | date:'short' }}</div>
+			</mat-card-content>
+		</mat-card>
+	</ng-template>
 </div>

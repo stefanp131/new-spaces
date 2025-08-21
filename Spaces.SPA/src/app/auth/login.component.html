@@ -13,8 +13,13 @@
         <input matInput type="password" formControlName="password" autocomplete="current-password" />
         <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Login</button>
-      <div *ngIf="error">{{ error }}</div>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || (loading$ | async)">
+        <ng-container *ngIf="loading$ | async; else loginText">
+          <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+        </ng-container>
+        <ng-template #loginText>Login</ng-template>
+      </button>
+      <mat-error *ngIf="error$ | async as error">{{ error }}</mat-error>
     </form>
   </mat-card>
 </div>

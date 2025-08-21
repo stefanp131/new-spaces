@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Post {
-  id?: number;
+  id: string;
   title: string;
   content: string;
-  createdAt?: string;
-  userId?: number;
+  createdAt: string;
+  userId?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -16,15 +16,17 @@ export class PostService {
 
   constructor(private http: HttpClient) {}
 
+
   createPost(post: Post): Observable<Post> {
     return this.http.post<Post>(this.apiUrl, post);
   }
+
 
   getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.apiUrl);
   }
 
-  deletePost(id: number): Observable<void> {
+  deletePost(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
