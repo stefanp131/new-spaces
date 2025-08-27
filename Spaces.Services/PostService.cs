@@ -7,9 +7,10 @@ namespace Spaces.Services
 {
     public interface IPostService
     {
-        Task<PostReadDto> CreatePostAsync(int userId, PostCreateDto dto);
-        Task<IEnumerable<PostReadDto>> GetAllPostsAsync();
-        Task<bool> DeletePostAsync(int id, int userId);
+    Task<PostReadDto> CreatePostAsync(int userId, PostCreateDto dto);
+    Task<IEnumerable<PostReadDto>> GetAllPostsAsync();
+    Task<IEnumerable<PostReadDto>> GetAllPostsByUserAsync(int userId);
+    Task<bool> DeletePostAsync(int id, int userId);
     }
 
     public class PostService : IPostService
@@ -31,10 +32,17 @@ namespace Spaces.Services
             return _mapper.Map<PostReadDto>(entity);
         }
 
+
         public async Task<IEnumerable<PostReadDto>> GetAllPostsAsync()
         {
             var all = await _unitOfWork.Posts.GetAllAsync();
             return _mapper.Map<IEnumerable<PostReadDto>>(all);
+        }
+
+        public async Task<IEnumerable<PostReadDto>> GetAllPostsByUserAsync(int userId)
+        {
+            var userPosts = await _unitOfWork.Posts.GetAllByUserAsync(userId);
+            return _mapper.Map<IEnumerable<PostReadDto>>(userPosts);
         }
 
         public async Task<bool> DeletePostAsync(int id, int userId)

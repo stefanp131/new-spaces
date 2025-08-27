@@ -1,10 +1,8 @@
 
-import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import * as AuthSelectors from './auth.selectors';
 

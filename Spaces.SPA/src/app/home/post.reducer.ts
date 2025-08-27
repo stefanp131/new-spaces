@@ -10,7 +10,7 @@ const initialState: PostState = {
 
 export const postReducer = createReducer(
   initialState,
-  on(PostActions.loadPosts, (state) => ({ ...state, loading: true, error: null })),
+  on(PostActions.loadPostsByUser, (state) => ({ ...state, loading: true, error: null })),
   on(PostActions.loadPostsSuccess, (state, { posts }) => ({ ...state, posts, loading: false })),
   on(PostActions.loadPostsFailure, (state, { error }) => ({ ...state, error, loading: false })),
   on(PostActions.createPost, (state) => ({ ...state, loading: true })),

@@ -10,7 +10,8 @@ namespace Spaces.Data.Repositories
     public interface IRepository<T> where T : class
     {
         Task<T?> GetByIdAsync(int id);
-        Task<IEnumerable<T>> GetAllAsync();
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<IEnumerable<T>> GetAllByUserAsync(int userId);
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
         Task AddAsync(T entity);
         void Remove(T entity);
@@ -28,7 +29,21 @@ namespace Spaces.Data.Repositories
         }
 
         public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+
         public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
+
+        public async Task<IEnumerable<T>> GetAllByUserAsync(int userId)
+        {
+            if (typeof(T) == typeof(Post))
+            {
+                var posts = _dbSet as IQueryable<Post>;
+                if (posts == null)
+                    return new List<T>();
+                var result = await posts.Where(p => p.UserId == userId).ToListAsync();
+                return result.Cast<T>();
+            }
+            throw new NotSupportedException("GetAllByUserAsync is only supported for Post.");
+        }
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) => await _dbSet.Where(predicate).ToListAsync();
         public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
         public void Remove(T entity) => _dbSet.Remove(entity);

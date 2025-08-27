@@ -23,6 +23,20 @@ export class PostEffects {
     )
   );
 
+  loadPostsByUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PostActions.loadPostsByUser),
+      mergeMap(({ userId }) =>
+        this.postService.getPostsByUser(userId).pipe(
+          map((posts: any) => PostActions.loadPostsSuccess({ posts })),
+          catchError((error) =>
+            of(PostActions.loadPostsFailure({ error: error.message || 'Load by user failed' }))
+          )
+        )
+      )
+    )
+  );
+
   createPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PostActions.createPost),

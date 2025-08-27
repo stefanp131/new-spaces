@@ -29,10 +29,18 @@ namespace Spaces.API
             return Ok(created);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetAllPosts()
         {
             var posts = await _postService.GetAllPostsAsync();
+            return Ok(posts);
+        }
+
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetAllPostsByUser(int userId)
+        {
+            var posts = await _postService.GetAllPostsByUserAsync(userId);
             return Ok(posts);
         }
 
