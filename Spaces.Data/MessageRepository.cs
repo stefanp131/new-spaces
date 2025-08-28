@@ -23,11 +23,19 @@ namespace Spaces.Data.Repositories
 
         public async Task<IEnumerable<Message>> GetMessagesBetweenUsersAsync(int userId, int recipientId)
         {
-            return await _context.Messages
+            // Get all messages between the two users
+            var all = await _context.Messages
                 .AsNoTracking()
                 .Where(m => (m.SenderId == userId && m.RecipientId == recipientId) || (m.SenderId == recipientId && m.RecipientId == userId))
                 .OrderByDescending(m => m.SentAt)
                 .ToListAsync();
+
+            // Remove duplicates: for each (content, sentAt), only keep the one where userId is sender or recipient (not both)
+            var filtered = all
+                .GroupBy(m => new { m.Content, m.SentAt })
+                .Select(g => g.FirstOrDefault(m => m.SenderId == userId) ?? g.First())
+                .ToList();
+            return filtered;
         }
 
         public async Task<IEnumerable<Message>> GetMessagesForUserAsync(int userId)
