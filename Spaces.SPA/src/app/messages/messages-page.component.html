@@ -1,18 +1,23 @@
-<div class="messages-page">
+
+<div class="messages-page mat-typography">
   <h2>Messages</h2>
-  <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
-    <label for="recipient">To:</label>
-    <select formControlName="recipientId">
-      <ng-container *ngFor="let user of (users$ | async) || []">
-        <option *ngIf="user.id !== userId" [value]="user.id">{{ user.username }}</option>
-      </ng-container>
-    </select>
-    <label for="content">Message:</label>
-    <input formControlName="content" placeholder="Type your message..." />
-    <button type="submit" [disabled]="messageForm.invalid">Send</button>
+  <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="message-form">
+    <mat-form-field appearance="outline" class="recipient-field">
+      <mat-label>To</mat-label>
+      <mat-select formControlName="recipientId" (selectionChange)="onRecipientChange()" required>
+        <mat-option *ngFor="let user of (users$ | async) || []" [value]="user.id" [disabled]="user.id === userId">
+          {{ user.username }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="message-field">
+      <mat-label>Message</mat-label>
+      <textarea matInput formControlName="content" rows="2" placeholder="Type your message..." required></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="messageForm.invalid">Send</button>
   </form>
-  <div class="messages-list">
-    <div *ngFor="let message of messages$ | async" [class.own]="message.senderId === userId">
+  <div class="messages-list" *ngIf="(messages$ | async)?.length">
+    <div *ngFor="let message of (messages$ | async)" [class.own]="message.senderId === userId">
       <span class="sender">{{ message.senderId === userId ? 'You' : getSenderUsername(message.senderId, users) }}</span>:
       <span class="content">{{ message.content }}</span>
       <span class="timestamp">{{ message.sentAt | date:'short' }}</span>

@@ -21,4 +21,16 @@ export class MessageEffects {
       )
     )
   );
+  
+  loadMessages$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MessageActions.loadMessages),
+      mergeMap(({ userId, recipientId }) =>
+        from(this.messageHub.requestMessagesWithRecipient(userId, recipientId)).pipe(
+          map(() => ({ type: '[Message] Load Messages Requested' })), // No-op, actual messages come via SignalR
+          catchError(error => of(MessageActions.loadMessagesFailure({ error: error.message })))
+        )
+      )
+    )
+  );
 }

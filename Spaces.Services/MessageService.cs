@@ -8,6 +8,7 @@ namespace Spaces.Services
     public interface IMessageService
     {
         Task<IEnumerable<Message>> GetMessagesForUserAsync(int userId);
+        Task<IEnumerable<Message>> GetMessagesBetweenUsersAsync(int userId, int recipientId);
         Task AddMessageAsync(Message message);
         Task MarkAllAsReadAsync(int userId);
     }
@@ -23,6 +24,11 @@ namespace Spaces.Services
         public async Task<IEnumerable<Message>> GetMessagesForUserAsync(int userId)
         {
             return await _messageRepository.GetMessagesForUserAsync(userId);
+        }
+
+        public async Task<IEnumerable<Message>> GetMessagesBetweenUsersAsync(int userId, int recipientId)
+        {
+            return await _messageRepository.GetMessagesBetweenUsersAsync(userId, recipientId);
         }
 
         public async Task AddMessageAsync(Message message)

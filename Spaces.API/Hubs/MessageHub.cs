@@ -26,10 +26,10 @@ namespace Spaces.API.Hubs
             await Clients.User(message.SenderId.ToString()).SendAsync("ReceiveMessage", message);
         }
 
-        public async Task RequestAllMessages(int userId)
+        public async Task RequestMessagesWithRecipient(int userId, int recipientId)
         {
-            var messages = await _messageService.GetMessagesForUserAsync(userId);
-            await Clients.User(userId.ToString()).SendAsync("ReceiveAllMessages", messages);
+            var messages = await _messageService.GetMessagesBetweenUsersAsync(userId, recipientId);
+            await Clients.User(userId.ToString()).SendAsync("RequestMessagesWithRecipient", messages);
         }
     }
 }

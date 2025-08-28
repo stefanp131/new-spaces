@@ -7,6 +7,7 @@ namespace Spaces.Data.Repositories
     public interface IMessageRepository
     {
         Task<IEnumerable<Message>> GetMessagesForUserAsync(int userId);
+        Task<IEnumerable<Message>> GetMessagesBetweenUsersAsync(int userId, int recipientId);
         Task AddMessageAsync(Message message);
         Task MarkAllAsReadAsync(int userId);
     }
@@ -17,6 +18,15 @@ namespace Spaces.Data.Repositories
         public MessageRepository(SpacesDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<Message>> GetMessagesBetweenUsersAsync(int userId, int recipientId)
+        {
+            return await _context.Messages
+                .AsNoTracking()
+                .Where(m => (m.SenderId == userId && m.RecipientId == recipientId) || (m.SenderId == recipientId && m.RecipientId == userId))
+                .OrderByDescending(m => m.SentAt)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Message>> GetMessagesForUserAsync(int userId)

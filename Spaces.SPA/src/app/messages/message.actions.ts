@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Message } from './message.model';
 
-export const loadMessages = createAction('[Message] Load Messages', props<{ userId: number }>());
+export const loadMessages = createAction('[Message] Load Messages', props<{ userId: number, recipientId: number }>());
 export const loadMessagesSuccess = createAction('[Message] Load Messages Success', props<{ messages: Message[] }>());
 export const loadMessagesFailure = createAction('[Message] Load Messages Failure', props<{ error: string }>());
 

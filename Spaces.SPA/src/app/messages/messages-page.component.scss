@@ -1,10 +1,22 @@
+// MDC-based Angular Material select fix for transparent dropdown
+::ng-deep .mdc-menu-surface {
+  background: var(--card-background-color, #fff) !important;
+  color: var(--text-color, #000) !important;
+  opacity: 1 !important;
+}
+::ng-deep .mdc-list-item {
+  background: var(--card-background-color, #fff) !important;
+  color: var(--text-color, #000) !important;
+}
 .messages-page {
   max-width: 600px;
   margin: 2rem auto;
   padding: 1.5rem;
-  background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  background: var(--card-background-color);
+  color: var(--text-color);
+  transition: background 0.3s, color 0.3s;
 }
 
 .messages-page h2 {
@@ -12,40 +24,19 @@
   text-align: center;
 }
 
-form {
+.message-form {
   display: flex;
-  gap: 0.5rem;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 1.5rem;
 }
 
-form label {
-  font-weight: 500;
-  margin-right: 0.5rem;
+.recipient-field, .message-field {
+  width: 100%;
+  max-width: 400px;
 }
 
-form select, form input {
-  padding: 0.4rem 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-form button {
-  padding: 0.4rem 1.2rem;
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-form button:disabled {
-  background: #bdbdbd;
-  cursor: not-allowed;
-}
 
 .messages-list {
   display: flex;
@@ -53,36 +44,60 @@ form button:disabled {
   gap: 0.7rem;
   max-height: 400px;
   overflow-y: auto;
-  background: #f7f7f7;
+  background: var(--background-color);
   padding: 1rem;
   border-radius: 8px;
+  transition: background 0.3s;
 }
+
 
 .messages-list .own {
+  background: var(--primary-color);
+  color: var(--contrast-text-color);
   align-self: flex-end;
-  background: #e3f2fd;
   border-radius: 8px 8px 0 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
-.messages-list > div {
+
+.messages-list div {
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  background: #f1f1f1;
-  max-width: 70%;
+  background: var(--card-background-color);
+  color: var(--text-color);
+  max-width: 80%;
   word-break: break-word;
   box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
 
-.sender {
+.messages-list .sender {
   font-weight: 600;
   margin-right: 0.5rem;
 }
 
-.content {
-  margin-right: 0.5rem;
+.messages-list .timestamp {
+  font-size: 0.85em;
+  color: #888;
+  margin-left: 0.7rem;
 }
 
-.timestamp {
-  color: #888;
-  font-size: 0.85em;
+
+.messages-list .own {
+  align-self: flex-end;
+  background: var(--primary-color);
+  color: var(--contrast-text-color);
+  border-radius: 8px 8px 0 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.messages-list div {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--card-background-color);
+  color: var(--text-color);
+  max-width: 80%;
+  word-break: break-word;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
