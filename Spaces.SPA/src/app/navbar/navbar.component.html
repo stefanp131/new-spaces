@@ -2,6 +2,7 @@
 <mat-toolbar class="navbar">
 	<span class="app-title" (click)="router.navigate(['/'])" style="cursor:pointer">Spaces</span>
 	<span class="spacer"></span>
+	<button mat-button [routerLink]="['/messages']">Messages</button>
 	<button mat-icon-button (click)="toggleTheme()">
 		<mat-icon>{{ themeService.isDarkMode() ? 'brightness_7' : 'brightness_4' }}</mat-icon>
 	</button>

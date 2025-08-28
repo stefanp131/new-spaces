@@ -1,0 +1,88 @@
+.messages-page {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.messages-page h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+form label {
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+
+form select, form input {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+form button {
+  padding: 0.4rem 1.2rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+form button:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #f7f7f7;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.messages-list .own {
+  align-self: flex-end;
+  background: #e3f2fd;
+  border-radius: 8px 8px 0 8px;
+}
+
+.messages-list > div {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: #f1f1f1;
+  max-width: 70%;
+  word-break: break-word;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.sender {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.content {
+  margin-right: 0.5rem;
+}
+
+.timestamp {
+  color: #888;
+  font-size: 0.85em;
+}

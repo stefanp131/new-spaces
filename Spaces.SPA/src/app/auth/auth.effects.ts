@@ -5,13 +5,15 @@ import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { JwtUtilsService } from '../utils/jwt-utils.service';
+import { MessageHubService } from '../messages/message-hub.service';
 
 @Injectable()
 export class AuthEffects {
   actions$ = inject(Actions);
   authService = inject(AuthService);
   router = inject(Router);
-
+  messageHubService = inject(MessageHubService);
   snackBar = inject(MatSnackBar);
   registerSuccess$ = createEffect(() =>
     this.actions$.pipe(
@@ -30,8 +32,23 @@ export class AuthEffects {
       tap(({ user }) => {
         if (user && user.token) {
           localStorage.setItem('jwt', user.token);
+          // Start SignalR connection after JWT is set
+          const userId = JwtUtilsService.getUserId();
+          if (userId) {
+            this.messageHubService.start(userId);
+          }
           this.router.navigate(['/']);
         }
+      })
+    ),
+    { dispatch: false }
+  );
+
+  logoutSignalR$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      tap(() => {
+        this.messageHubService.stop();
       })
     ),
     { dispatch: false }

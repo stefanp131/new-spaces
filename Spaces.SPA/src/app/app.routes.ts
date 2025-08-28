@@ -20,5 +20,6 @@ export const routes: Routes = [
 	{ path: '', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent), canActivate: [authGuard] },
 	{ path: 'login', component: LoginComponent },
 	{ path: 'register', component: RegisterComponent },
+	{ path: 'messages', loadComponent: () => import('./messages/messages-page.component').then(m => m.MessagesPageComponent), canActivate: [authGuard] },
 	{ path: '**', redirectTo: '' }
 ];

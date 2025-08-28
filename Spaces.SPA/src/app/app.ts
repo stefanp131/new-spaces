@@ -1,6 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
+import { MessageHubService } from './messages/message-hub.service';
+import { Store } from '@ngrx/store';
+import { AppState } from './store/app.state';
+import { selectUser } from './auth/auth.selectors';
+import { JwtUtilsService } from './utils/jwt-utils.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +16,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 })
 export class App {
   protected readonly title = signal('Spaces.SPA');
+
+  constructor() {
+  }
+
 }

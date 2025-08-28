@@ -1,0 +1,21 @@
+<div class="messages-page">
+  <h2>Messages</h2>
+  <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+    <label for="recipient">To:</label>
+    <select formControlName="recipientId">
+      <ng-container *ngFor="let user of (users$ | async) || []">
+        <option *ngIf="user.id !== userId" [value]="user.id">{{ user.username }}</option>
+      </ng-container>
+    </select>
+    <label for="content">Message:</label>
+    <input formControlName="content" placeholder="Type your message..." />
+    <button type="submit" [disabled]="messageForm.invalid">Send</button>
+  </form>
+  <div class="messages-list">
+    <div *ngFor="let message of messages$ | async" [class.own]="message.senderId === userId">
+      <span class="sender">{{ message.senderId === userId ? 'You' : getSenderUsername(message.senderId, users) }}</span>:
+      <span class="content">{{ message.content }}</span>
+      <span class="timestamp">{{ message.sentAt | date:'short' }}</span>
+    </div>
+  </div>
+</div>
