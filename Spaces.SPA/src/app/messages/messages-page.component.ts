@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatBadgeModule } from '@angular/material/badge';
+
 
 export interface UserDropdown {
   id: number;
@@ -32,6 +34,7 @@ export interface UserDropdown {
     MatSelectModule,
     MatInputModule,
     MatButtonModule,
+    MatBadgeModule
   ],
   standalone: true,
 })
@@ -39,20 +42,23 @@ export class MessagesPageComponent implements OnInit {
   messages$: Observable<Message[]>;
   filteredMessages$!: Observable<Message[]>;
   users$: Observable<UserDropdown[]>;
+  unreadMessagesCount$: Observable<number>;
   messageForm: FormGroup;
   userId: number;
   users: UserDropdown[] = [];
   private usersSub?: Subscription;
 
   constructor(private store: Store, private fb: FormBuilder, private messageHubService: MessageHubService) {
-    this.messages$ = this.store.select(MessageSelectors.selectAllMessages);
+    this.messages$ = this.store.select(MessageSelectors.selectRecipientMessages);
     this.users$ = this.store.select(UserSelectors.selectAllUsers);
+    this.unreadMessagesCount$ = this.store.select(MessageSelectors.selectUnreadMessagesCount);
     this.messageForm = this.fb.group({
       recipientId: ['', Validators.required],
       content: ['', Validators.required],
     });
     this.userId = JwtUtilsService.getUserId() ?? 0;
   }
+
 
   ngOnInit() {
     this.store.dispatch({ type: '[User] Load Users' });
@@ -62,6 +68,13 @@ export class MessagesPageComponent implements OnInit {
     if (!this.messageHubService['hubConnection'] || this.messageHubService['hubConnection'].state === 'Disconnected') {
       this.messageHubService.start(this.userId);
     }
+
+    // Load all messages for the user on init
+    this.store.dispatch(MessageActions.loadAllMessages({ userId: this.userId }));
+  }
+
+  reloadAllMessages() {
+    this.store.dispatch(MessageActions.loadAllMessages({ userId: this.userId }));
   }
 
   sendMessage() {
@@ -81,8 +94,14 @@ export class MessagesPageComponent implements OnInit {
   }
 
   onRecipientChange() {
+    this.store.dispatch(MessageActions.markAllAsRead({ userId: JwtUtilsService.getUserId() ?? 0, recipientId: +this.messageForm.get('recipientId')!.value }));
+
     this.store.dispatch(
       MessageActions.loadMessages({ userId: JwtUtilsService.getUserId() ?? 0, recipientId: +this.messageForm.get('recipientId')!.value })
+    );
+
+    this.store.dispatch(
+      MessageActions.loadAllMessages({ userId: JwtUtilsService.getUserId() ?? 0})
     );
   }
 }

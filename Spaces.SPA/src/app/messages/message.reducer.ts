@@ -3,13 +3,15 @@ import * as MessageActions from './message.actions';
 import { Message } from './message.model';
 
 export interface MessageState {
-  messages: Message[];
+  allMessages: Message[];
+  recipientMessages: Message[];
   loading: boolean;
   error: string | null;
 }
 
 export const initialState: MessageState = {
-  messages: [],
+  allMessages: [],
+  recipientMessages: [],
   loading: false,
   error: null,
 };
@@ -17,7 +19,10 @@ export const initialState: MessageState = {
 export const messageReducer = createReducer(
   initialState,
   on(MessageActions.loadMessages, (state) => ({ ...state, loading: true, error: null })),
-  on(MessageActions.loadMessagesSuccess, (state, { messages }) => ({ ...state, loading: false, messages })),
+  // For recipient-specific messages
+  on(MessageActions.loadMessagesSuccess, (state, { messages }) => ({ ...state, loading: false, recipientMessages: messages })),
+  // For all messages
+  on(MessageActions.loadAllMessagesSuccess, (state, { messages }) => ({ ...state, loading: false, allMessages: messages })),
   on(MessageActions.loadMessagesFailure, (state, { error }) => ({ ...state, loading: false, error })),
   on(MessageActions.sendMessage, (state) => ({ ...state, loading: true, error: null })),
   on(MessageActions.sendMessageSuccess, (state) => ({ ...state, loading: false })),
@@ -27,10 +32,9 @@ export const messageReducer = createReducer(
     loading: true,
     error: null
   })),
-  on(MessageActions.markAllAsReadSuccess, (state) => ({
+  on(MessageActions.markAllAsReadSuccess, (state, { recipientId }) => ({
     ...state,
-    loading: false,
-    messages: state.messages.map(m => ({ ...m, isRead: true }))
+    loading: false
   })),
   on(MessageActions.markAllAsReadFailure, (state, { error }) => ({
     ...state,
@@ -40,6 +44,7 @@ export const messageReducer = createReducer(
   // Add new message to the top of the list when received via SignalR
   on(MessageActions.receiveMessage, (state, { message }) => ({
     ...state,
-    messages: [message, ...state.messages]
+    recipientMessages: [message, ...state.recipientMessages],
+    allMessages: [message, ...state.allMessages]
   })),
 );

@@ -5,7 +5,12 @@ export const selectMessageState = createFeatureSelector<MessageState>('messages'
 
 export const selectAllMessages = createSelector(
   selectMessageState,
-  (state) => state.messages
+  (state) => state.allMessages
+);
+
+export const selectRecipientMessages = createSelector(
+  selectMessageState,
+  (state) => state.recipientMessages
 );
 
 export const selectUnreadMessagesCount = createSelector(

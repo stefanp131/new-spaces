@@ -1,3 +1,4 @@
+
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of } from 'rxjs';
@@ -29,6 +30,32 @@ export class MessageEffects {
         from(this.messageHub.requestMessagesWithRecipient(userId, recipientId)).pipe(
           map(() => ({ type: '[Message] Load Messages Requested' })), // No-op, actual messages come via SignalR
           catchError(error => of(MessageActions.loadMessagesFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+    markAllAsReadWithRecipient$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MessageActions.markAllAsRead),
+      mergeMap(({ userId, recipientId }) =>
+        from(this.messageHub.markAllAsReadWithRecipient(userId, recipientId)).pipe(
+          map((_, i) => MessageActions.markAllAsReadSuccess({ recipientId })),
+          catchError(error => of({ type: '[Message] Mark All As Read With Recipient Failure', error: error.message }))
+        )
+      )
+    )
+  );
+
+
+  loadAllMessages$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MessageActions.loadAllMessages),
+      mergeMap(({ userId }) =>
+        from(this.messageHub.requestAllMessages(userId)).pipe(
+          // No-op, actual messages come via SignalR, but handle error
+          map(() => ({ type: '[Message] Load All Messages Requested' })),
+          catchError(error => of(MessageActions.loadAllMessagesFailure({ error: error.message })))
         )
       )
     )

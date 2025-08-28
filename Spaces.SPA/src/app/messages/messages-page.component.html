@@ -1,18 +1,18 @@
 
 <div class="messages-page mat-typography">
-  <h2>Messages</h2>
+  <h2 matBadge="{{ unreadMessagesCount$ | async }}" class="warning" matBadgeOverlap="false" [matBadgeHidden]="!(unreadMessagesCount$ | async)">Messages</h2>
   <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="message-form">
     <mat-form-field appearance="outline" class="recipient-field">
       <mat-label>To</mat-label>
-      <mat-select formControlName="recipientId" (selectionChange)="onRecipientChange()" required>
-        <mat-option *ngFor="let user of (users$ | async) || []" [value]="user.id" [disabled]="user.id === userId">
-          {{ user.username }}
-        </mat-option>
-      </mat-select>
+        <mat-select  formControlName="recipientId" (selectionChange)="onRecipientChange()" required>
+          <mat-option *ngFor="let user of (users$ | async) || []" [value]="user.id" [disabled]="user.id === userId">
+            {{ user.username }}
+          </mat-option>
+        </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline" class="message-field">
       <mat-label>Message</mat-label>
-      <textarea matInput formControlName="content" rows="2" placeholder="Type your message..." required></textarea>
+      <textarea rows="3" matInput formControlName="content" placeholder="Type your message..." required></textarea>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="messageForm.invalid">Send</button>
   </form>

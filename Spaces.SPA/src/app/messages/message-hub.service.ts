@@ -1,3 +1,6 @@
+
+  // ...existing code...
+
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { from, Observable, Subject } from 'rxjs';
@@ -47,6 +50,10 @@ export class MessageHubService {
       this.store.dispatch(MessageActions.loadMessagesSuccess({ messages }));
     });
 
+    this.hubConnection.on('RequestAllMessages', (messages: Message[]) => {
+      this.store.dispatch(MessageActions.loadAllMessagesSuccess({ messages }));
+    });
+
     this.connectionStarted = this.hubConnection
       .start()
 
@@ -61,15 +68,35 @@ export class MessageHubService {
     });
   }
 
+
   async requestMessagesWithRecipient(userId: number, recipientId: number): Promise<Message[]> {
     await this.connectionStarted;
-
     if (!this.hubConnection) throw new Error('SignalR connection not started');
     return this.hubConnection.invoke('RequestMessagesWithRecipient', userId, recipientId).catch((err) => {
       console.error('Invoke error:', err);
       throw err;
     });
   }
+
+  async requestAllMessages(userId: number): Promise<Message[]> {
+    await this.connectionStarted;
+    if (!this.hubConnection) throw new Error('SignalR connection not started');
+    return this.hubConnection.invoke('RequestAllMessages', userId).catch((err) => {
+      console.error('Invoke error:', err);
+      throw err;
+    });
+  }
+
+  async markAllAsReadWithRecipient(userId: number, recipientId: number): Promise<void> {
+    await this.connectionStarted;
+    if (!this.hubConnection) throw new Error('SignalR connection not started');
+    return this.hubConnection.invoke('MarkAllAsReadWithRecipient', userId, recipientId).catch((err) => {
+      console.error('Invoke error:', err);
+      throw err;
+    });
+  }
+
+  
 
   stop() {
     this.hubConnection?.stop();
