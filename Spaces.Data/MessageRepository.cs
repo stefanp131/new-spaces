@@ -9,7 +9,8 @@ namespace Spaces.Data.Repositories
         Task<IEnumerable<Message>> GetMessagesForUserAsync(int userId);
         Task<IEnumerable<Message>> GetMessagesBetweenUsersAsync(int userId, int recipientId);
         Task AddMessageAsync(Message message);
-        Task MarkAllAsReadAsync(int userId);
+    Task MarkAllAsReadAsync(int userId);
+    Task MarkAllAsReadWithRecipientAsync(int userId, int recipientId);
     }
 
     public class MessageRepository : IMessageRepository
@@ -48,6 +49,18 @@ namespace Spaces.Data.Repositories
         {
             var messages = await _context.Messages
                 .Where(m => m.RecipientId == userId && !m.IsRead)
+                .ToListAsync();
+            foreach (var msg in messages)
+            {
+                msg.IsRead = true;
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task MarkAllAsReadWithRecipientAsync(int userId, int recipientId)
+        {
+            var messages = await _context.Messages
+                .Where(m => m.RecipientId == userId && m.SenderId == recipientId && !m.IsRead)
                 .ToListAsync();
             foreach (var msg in messages)
             {

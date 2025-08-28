@@ -20,16 +20,26 @@ namespace Spaces.API.Hubs
         {
             // Save message to DB
             await _messageService.AddMessageAsync(message);
-            // Send to recipient
+            // Only send to recipient
             await Clients.User(recipientId.ToString()).SendAsync("ReceiveMessage", message);
-            // Optionally, send to sender for confirmation
-            await Clients.User(message.SenderId.ToString()).SendAsync("ReceiveMessage", message);
         }
 
         public async Task RequestMessagesWithRecipient(int userId, int recipientId)
         {
             var messages = await _messageService.GetMessagesBetweenUsersAsync(userId, recipientId);
             await Clients.User(userId.ToString()).SendAsync("RequestMessagesWithRecipient", messages);
+        }
+
+        public async Task MarkAllAsReadWithRecipient(int userId, int recipientId)
+        {
+            await _messageService.MarkAllAsReadWithRecipientAsync(userId, recipientId);
+            await Clients.User(userId.ToString()).SendAsync("MarkAllAsReadWithRecipient");
+        }
+
+        public async Task RequestAllMessages(int userId)
+        {
+            var messages = await _messageService.GetMessagesForUserAsync(userId);
+            await Clients.User(userId.ToString()).SendAsync("RequestAllMessages", messages);
         }
     }
 }

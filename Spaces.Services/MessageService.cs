@@ -10,7 +10,8 @@ namespace Spaces.Services
         Task<IEnumerable<Message>> GetMessagesForUserAsync(int userId);
         Task<IEnumerable<Message>> GetMessagesBetweenUsersAsync(int userId, int recipientId);
         Task AddMessageAsync(Message message);
-        Task MarkAllAsReadAsync(int userId);
+    Task MarkAllAsReadAsync(int userId);
+    Task MarkAllAsReadWithRecipientAsync(int userId, int recipientId);
     }
 
     public class MessageService : IMessageService
@@ -39,6 +40,11 @@ namespace Spaces.Services
         public async Task MarkAllAsReadAsync(int userId)
         {
             await _messageRepository.MarkAllAsReadAsync(userId);
+        }
+
+        public async Task MarkAllAsReadWithRecipientAsync(int userId, int recipientId)
+        {
+            await _messageRepository.MarkAllAsReadWithRecipientAsync(userId, recipientId);
         }
     }
 }
