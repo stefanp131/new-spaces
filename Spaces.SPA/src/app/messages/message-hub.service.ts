@@ -62,7 +62,7 @@ export class MessageHubService {
   async sendMessageToUser(recipientId: number, message: Message): Promise<void> {
     await this.connectionStarted;
     if (!this.hubConnection) throw new Error('SignalR connection not started');
-    return this.hubConnection.invoke('SendMessageToUser', recipientId, message).catch((err) => {
+    return this.hubConnection.invoke('SendMessageToUser', recipientId, message).catch((err: any) => {
       console.error('Invoke error:', err);
       throw err;
     });
@@ -72,7 +72,7 @@ export class MessageHubService {
   async requestMessagesWithRecipient(userId: number, recipientId: number): Promise<Message[]> {
     await this.connectionStarted;
     if (!this.hubConnection) throw new Error('SignalR connection not started');
-    return this.hubConnection.invoke('RequestMessagesWithRecipient', userId, recipientId).catch((err) => {
+    return this.hubConnection.invoke('RequestMessagesWithRecipient', userId, recipientId).catch((err: any) => {
       console.error('Invoke error:', err);
       throw err;
     });
@@ -81,7 +81,7 @@ export class MessageHubService {
   async requestAllMessages(userId: number): Promise<Message[]> {
     await this.connectionStarted;
     if (!this.hubConnection) throw new Error('SignalR connection not started');
-    return this.hubConnection.invoke('RequestAllMessages', userId).catch((err) => {
+    return this.hubConnection.invoke('RequestAllMessages', userId).catch((err: any) => {
       console.error('Invoke error:', err);
       throw err;
     });
@@ -90,7 +90,7 @@ export class MessageHubService {
   async markAllAsReadWithRecipient(userId: number, recipientId: number): Promise<void> {
     await this.connectionStarted;
     if (!this.hubConnection) throw new Error('SignalR connection not started');
-    return this.hubConnection.invoke('MarkAllAsReadWithRecipient', userId, recipientId).catch((err) => {
+    return this.hubConnection.invoke('MarkAllAsReadWithRecipient', userId, recipientId).catch((err: any) => {
       console.error('Invoke error:', err);
       throw err;
     });

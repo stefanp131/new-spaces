@@ -20,8 +20,10 @@ namespace Spaces.API.Hubs
         {
             // Save message to DB
             await _messageService.AddMessageAsync(message);
-            // Only send to recipient
+            // Send to recipient
             await Clients.User(recipientId.ToString()).SendAsync("ReceiveMessage", message);
+            // Also send to sender so they see their own message
+            await Clients.User(message.SenderId.ToString()).SendAsync("ReceiveMessage", message);
         }
 
         public async Task RequestMessagesWithRecipient(int userId, int recipientId)

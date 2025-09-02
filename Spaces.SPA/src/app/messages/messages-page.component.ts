@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Message } from './message.model';
 import * as MessageSelectors from './message.selectors';
@@ -23,10 +23,23 @@ export interface UserDropdown {
   username: string;
 }
 
+export interface UserWithUnread extends UserDropdown {
+  unreadCount: number;
+}
+
 @Component({
   selector: 'app-messages-page',
   templateUrl: './messages-page.component.html',
   styleUrls: ['./messages-page.component.scss'],
+  styles: [`
+    .bold {
+      font-weight: bold;
+    }
+    .unread-indicator {
+      color: #f44336;
+      font-size: 0.8em;
+    }
+  `],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -42,6 +55,7 @@ export class MessagesPageComponent implements OnInit {
   messages$: Observable<Message[]>;
   filteredMessages$!: Observable<Message[]>;
   users$: Observable<UserDropdown[]>;
+  usersWithUnread$!: Observable<UserWithUnread[]>;
   unreadMessagesCount$: Observable<number>;
   messageForm: FormGroup;
   userId: number;
@@ -51,12 +65,12 @@ export class MessagesPageComponent implements OnInit {
   constructor(private store: Store, private fb: FormBuilder, private messageHubService: MessageHubService) {
     this.messages$ = this.store.select(MessageSelectors.selectRecipientMessages);
     this.users$ = this.store.select(UserSelectors.selectAllUsers);
-    this.unreadMessagesCount$ = this.store.select(MessageSelectors.selectUnreadMessagesCount);
     this.messageForm = this.fb.group({
       recipientId: ['', Validators.required],
       content: ['', Validators.required],
     });
     this.userId = JwtUtilsService.getUserId() ?? 0;
+    this.unreadMessagesCount$ = this.store.select(MessageSelectors.selectUnreadMessagesCount(this.userId));
   }
 
 
@@ -71,6 +85,16 @@ export class MessagesPageComponent implements OnInit {
 
     // Load all messages for the user on init
     this.store.dispatch(MessageActions.loadAllMessages({ userId: this.userId }));
+
+    // Set up users with unread indicator
+    this.usersWithUnread$ = combineLatest([this.users$, this.messages$]).pipe(
+      map(([users, messages]) => 
+        users.map(user => ({
+          ...user,
+          unreadCount: messages.filter(m => m.senderId === user.id && m.recipientId === this.userId && !m.isRead).length
+        }))
+      )
+    );
   }
 
   reloadAllMessages() {

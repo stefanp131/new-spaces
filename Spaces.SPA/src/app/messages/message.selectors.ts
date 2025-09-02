@@ -13,9 +13,9 @@ export const selectRecipientMessages = createSelector(
   (state) => state.recipientMessages
 );
 
-export const selectUnreadMessagesCount = createSelector(
+export const selectUnreadMessagesCount = (userId: number) => createSelector(
   selectAllMessages,
-  (messages) => messages.filter(m => !m.isRead).length
+  (messages) => messages.filter(m => m.recipientId === userId && !m.isRead).length
 );
 
 export const selectMessagesLoading = createSelector(

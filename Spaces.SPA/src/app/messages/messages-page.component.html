@@ -5,8 +5,10 @@
     <mat-form-field appearance="outline" class="recipient-field">
       <mat-label>To</mat-label>
         <mat-select  formControlName="recipientId" (selectionChange)="onRecipientChange()" required>
-          <mat-option *ngFor="let user of (users$ | async) || []" [value]="user.id" [disabled]="user.id === userId">
-            {{ user.username }}
+          <mat-option *ngFor="let user of (usersWithUnread$ | async) || []" [value]="user.id" [disabled]="user.id === userId">
+            <span [class.bold]="user.unreadCount > 0">{{ user.username }}</span>
+            &nbsp;
+            <span *ngIf="user.unreadCount > 0" class="unread-indicator">({{ user.unreadCount }})</span>
           </mat-option>
         </mat-select>
     </mat-form-field>

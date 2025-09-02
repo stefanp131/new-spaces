@@ -34,7 +34,13 @@ export const messageReducer = createReducer(
   })),
   on(MessageActions.markAllAsReadSuccess, (state, { recipientId }) => ({
     ...state,
-    loading: false
+    loading: false,
+    allMessages: state.allMessages.map(m => 
+      m.recipientId === recipientId ? { ...m, isRead: true } : m
+    ),
+    recipientMessages: state.recipientMessages.map(m => 
+      m.recipientId === recipientId ? { ...m, isRead: true } : m
+    )
   })),
   on(MessageActions.markAllAsReadFailure, (state, { error }) => ({
     ...state,
@@ -44,7 +50,7 @@ export const messageReducer = createReducer(
   // Add new message to the top of the list when received via SignalR
   on(MessageActions.receiveMessage, (state, { message }) => ({
     ...state,
-    recipientMessages: [message, ...state.recipientMessages],
-    allMessages: [message, ...state.allMessages]
+    recipientMessages: [{ ...message, isRead: false }, ...state.recipientMessages],
+    allMessages: [{ ...message, isRead: false }, ...state.allMessages]
   })),
 );
